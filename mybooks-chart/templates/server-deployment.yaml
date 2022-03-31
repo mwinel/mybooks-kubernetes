@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    name: server
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+        env: {{ .Values.labels.env }}
+        cluster: {{ .Values.labels.cluster }}
+    spec:
+      containers:
+      - name: server
+        image: {{ .Values.image.serverRepository }}:v{{ .Values.image.serverImageTag }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        env:
+        - name: FLASK_ENV
+          value: {{ .Values.env.serverEnvironment | quote }}
+        - name: APP_SETTINGS
+          value: {{ .Values.env.serverAppSettings | quote }}
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+      restartPolicy: Always

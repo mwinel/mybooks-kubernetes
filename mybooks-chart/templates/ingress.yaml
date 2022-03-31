@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mybooks-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /api/v1/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.ingress.serverServiceName }}
+            port:
+              number: {{ .Values.ingress.serverServicePort }}

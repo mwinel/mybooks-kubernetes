@@ -1,0 +1,45 @@
+labels:
+  env: development
+  cluster: python-cicd-assignment-cluster1
+
+replicaCount: 1
+
+image:
+  serverImageTag: 1.0.0
+  serverRepository: us-central1-docker.pkg.dev/python-cicd-assignment/mybooks-repo/server
+  databaseImageTag: 13-alpine
+  databaseRepository: postgres
+  imagePullPolicy: Always
+
+service:
+  serverServiceType: ClusterIP
+  serverPort: 5000
+  serverTargetPort: 5000
+  databaseServiceType: ClusterIP
+  databasePort: 5432
+  databaseTargetPort: 5432
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+env:
+  serverEnvironment: development
+  serverAppSettings: project.config.DevelopmentConfig
+
+ingress: 
+  host: mybooks.world
+  serverServiceName: server
+  serverServicePort: 5000
+
+# Persistent Volume Claim
+pvc:
+  storageClass: standard
+  storageSize: 2Gi
+
+# Persistent Volume
+pv:
+  storageClass: standard
+  storageSize: 2Gi
