@@ -1,12 +1,12 @@
 labels:
   env: development
-  cluster: python-cicd-assignment-cluster1
+  cluster: mybooks-cluster
 
 replicaCount: 1
 
 image:
   serverImageTag: 1.0.0
-  serverRepository: us-central1-docker.pkg.dev/python-cicd-assignment/mybooks-repo/server
+  serverRepository: mwinel/mybooks-server
   databaseImageTag: 13-alpine
   databaseRepository: postgres
   imagePullPolicy: Always
