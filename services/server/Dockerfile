@@ -15,14 +15,8 @@ WORKDIR /app
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
-# Add entrypoint.sh
-# COPY ./entrypoint.sh /app/entrypoint.sh
-# RUN chmod +x /app/entrypoint.sh
-
 # Add app
 COPY . /app
 
 # Run server
-# CMD ["/app/entrypoint.sh"]
-# ENTRYPOINT [ "/app/entrypoint.sh" ]
 CMD gunicorn -b 0.0.0.0:5000 manage:app
