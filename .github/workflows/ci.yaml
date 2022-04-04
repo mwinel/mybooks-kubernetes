@@ -41,6 +41,8 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v2
         with:
+          context: .
+          file: ./services/server/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKERHUB_REPO_NAME }}/mybooks-server:v1.0.0 /services/server
+          tags: ${{ secrets.DOCKERHUB_REPO_NAME }}/mybooks-server:v1.0.0
