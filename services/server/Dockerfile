@@ -1,13 +1,6 @@
 # Base image
 FROM python:3.7-slim
 
-ENV PORT 5000
-
-# Install netcat
-RUN apt-get update && \
-    apt-get -y install netcat && \
-    apt-get clean
-
 # Set working directory
 WORKDIR /app
 
